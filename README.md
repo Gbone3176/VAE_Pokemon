@@ -30,7 +30,7 @@ This project implements a VAE model to learn and generate Pokemon images. The mo
 
 ### Loss Function
 ```python
-Total Loss = 10 × Reconstruction Loss + 1/16 × KL Divergence
+Total Loss = 10 × Reconstruction Loss + KL Divergence
 ```
 - **Reconstruction Loss**: MSE between input and reconstructed images
 - **KL Divergence**: Regularization to keep latent distribution close to N(0,1)
