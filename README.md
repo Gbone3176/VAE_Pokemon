@@ -184,17 +184,6 @@ The model achieves:
 - High-quality reconstructions after ~5000 epochs
 - Continuous generation of novel Pokemon-like sprites
 
-## 🔧 Troubleshooting
-
-**Issue**: `AttributeError: 'VAE' object has no attribute 'input_shape'`
-- **Solution**: The decoder needs `input_shape` initialized by encoder. Call `encode()` before `decode()`.
-
-**Issue**: Checkpoints show `lattent_size` parameter error
-- **Solution**: Updated to `latent_size`. Old checkpoints load with strict=False.
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## 📄 License
 
@@ -204,12 +193,6 @@ This project is open source and available under the MIT License.
 
 - VAE architecture inspired by the original [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114) paper
 - Pokemon dataset sourced from community sprite collections
-
-## 📞 Contact
-
-For questions or collaboration:
-- GitHub: [@Gbone3176](https://github.com/Gbone3176)
-- Repository: [VAE_Pokemon](https://github.com/Gbone3176/VAE_Pokemon)
 
 ---
 
