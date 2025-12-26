@@ -59,7 +59,7 @@ def vae_loss(reconstructed_x, x, mu, log_var):
     return reconstruction_loss * 10 + kl_divergence, kl_divergence # 10 is magic number for balance
 
 def main(args):
-    # torch.manual_seed(114514)
+    torch.manual_seed(42)
     output_path = f"{args.output_dir}_lr{args.lr}_epoch{args.epoch}_latent{args.latent_size}_hidden{args.hidden_size}"
     args.output_dir = output_path
     if args.output_dir:
@@ -68,7 +68,7 @@ def main(args):
     torch.manual_seed(args.seed)
     log_writer = SummaryWriter(log_dir=args.output_dir)
     
-    my_dataset = figure_dataset("/mnt/data0/xiaochen/workspace/VAE-Pokemon-Creation/figure")
+    my_dataset = figure_dataset("figure")
 
     train_ratio = 0.99
     test_ratio = 1 - train_ratio
@@ -78,8 +78,8 @@ def main(args):
 
     train_dataset, test_dataset = random_split(my_dataset, [train_size, test_size])
 
-    print(len(train_dataset))
-    print(len(test_dataset))
+    print("lenth of train_dataset:" + str(len(train_dataset)))
+    print("lenth of test_dataset:" + str(len(test_dataset)))
     
     train_loader = DataLoader(
         train_dataset, 
@@ -93,11 +93,11 @@ def main(args):
     model = VAE(
         input_size=40,
         hidden_size=args.hidden_size,
-        lattent_size=args.latent_size
+        latent_size=args.latent_size
         )
     
     model = model.to(device)
-    print(model)
+    # print(model)
     
     optimizer = optim.Adam(model.parameters(), lr = args.lr)
     #  -----------------------------------
@@ -125,7 +125,7 @@ def main(args):
             loss.backward()
             optimizer.step()
             running_loss += loss
-            running_kl += kl_divergence
+            running_loss += kl_divergence
         log_writer.add_scalar("train/epoch_loss", running_loss / len(train_loader), epoch)
         log_writer.add_scalar("train/epoch_kl_divergence", running_kl / len(train_loader), epoch)
         log_writer.add_scalar("train/epoch_reconstruct_loss", (running_loss - running_kl) / len(train_loader), epoch)

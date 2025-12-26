@@ -1,9 +1,33 @@
-__pycache__
-image
-events*
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Output directories
+output_dir*/
 out_*
 
-figure/*
+# Training artifacts
 *.pt
+events*
+
+# Datasets
+figure/*
+image/
+images/
+
+# Visualizations
+vis/
 *.jpg
 *.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

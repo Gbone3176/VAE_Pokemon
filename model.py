@@ -71,13 +71,13 @@ class DeResnetBlock(nn.Module):
 
 class VAE(nn.Module):
     def __init__(self, 
-                 input_size = 20,
+                 input_size = 40,
                  hidden_size= 512,
-                 lattent_size = 32
+                 latent_size = 32
                  ):
         super(VAE, self).__init__()
         self.input_size = input_size
-        self.lattent_size = lattent_size
+        self.latent_size = latent_size
         self.encoder = nn.Sequential(
             nn.Flatten(),
             nn.Linear(input_size * input_size * 3, hidden_size),
@@ -90,12 +90,12 @@ class VAE(nn.Module):
             nn.Linear(hidden_size, hidden_size),
             nn.ReLU(),
             # nn.BatchNorm1d(hidden_size),
-            nn.Linear(hidden_size, lattent_size * 2),
+            nn.Linear(hidden_size, latent_size * 2),
         )
         
         
         self.decoder = nn.Sequential(
-            nn.Linear(lattent_size, hidden_size),
+            nn.Linear(latent_size, hidden_size),
             nn.ReLU(),
             # nn.BatchNorm1d(hidden_size),
             nn.Linear(hidden_size, hidden_size),
@@ -123,7 +123,6 @@ class VAE(nn.Module):
         self.input_shape = [img.shape[0],  img.shape[1],  img.shape[2],  img.shape[3]]
         lattent_vectors = self.encoder(img)
         mu, log_var = torch.chunk(lattent_vectors, chunks=2, dim=1) # split it
-        # log_var  == $\log \sigma^2$
         
         z = self.reparameterize(mu, log_var)
         
@@ -131,7 +130,7 @@ class VAE(nn.Module):
     
     def decode(self, z):
         B, D = z.shape
-        self.input_shape[0] = B 
+        self.input_shape[0] = B
         
         
         decode_img = self.decoder(z)
